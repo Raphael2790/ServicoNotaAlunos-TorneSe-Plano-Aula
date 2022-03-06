@@ -20,7 +20,7 @@ public class AlunoRequestBuildHandler : AbstractRequestBuildHandler<NotaAlunoVal
 
     public override async Task Handle(NotaAlunoValidationRequest request)
     {
-        request.Aluno = await _usuarioRepository.BuscarAlunoPorId(request.AlunoId);
+        request.Aluno = await _usuarioRepository.BuscarAlunoPorIdDb(request.AlunoId);
 
         if(request.Aluno is null)
         {

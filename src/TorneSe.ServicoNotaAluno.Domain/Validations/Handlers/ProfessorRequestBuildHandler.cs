@@ -20,7 +20,7 @@ public class ProfessorRequestBuildHandler : AbstractRequestBuildHandler<NotaAlun
 
     public override async Task Handle(NotaAlunoValidationRequest request)
     {
-        request.Professor = await _usuarioRepository.BuscarProfessorPorId(request.ProfessorId);
+        request.Professor = await _usuarioRepository.BuscarProfessorPorIdDb(request.ProfessorId);
 
         if(request.Professor is null)
         {

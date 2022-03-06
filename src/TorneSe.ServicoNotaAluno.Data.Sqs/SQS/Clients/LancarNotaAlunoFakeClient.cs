@@ -31,10 +31,17 @@ public class LancarNotaAlunoFakeClient : SqsClient<RegistrarNotaAluno>, ILancarN
         return await Task.FromResult(message);
     }
 
+    public override async Task DeleteMessageAsync(string messageHandle)
+    {
+        await Task.FromResult(_filaNotasParaRegistrar.Dequeue());
+    }
+
     private Queue<QueueMessage<RegistrarNotaAluno>> NotasParaProcessar()
     {
         var queue = new Queue<QueueMessage<RegistrarNotaAluno>>();
-        queue.Enqueue(
+        var lista = new List<QueueMessage<RegistrarNotaAluno>>();
+
+        lista.Add(
             new()
             {
                 MessageId = Guid.NewGuid().ToString(),
@@ -51,6 +58,24 @@ public class LancarNotaAlunoFakeClient : SqsClient<RegistrarNotaAluno>, ILancarN
                 }
             }
         );
+
+        lista.Add(new()
+            {
+                MessageId = Guid.NewGuid().ToString(),
+                MessageHandle = Guid.NewGuid().ToString(),
+                ReceiveCount = 0,
+                MessageBody = new()
+                {
+                    AlunoId = 1234,
+                    AtividadeId = 1,
+                    CorrelationId = Guid.NewGuid().ToString(),
+                    ProfessorId = 1282727,
+                    ValorNota = 10,
+                    NotaSubstitutiva = false
+                }
+            });
+        
+        queue.Enqueue(lista[new Random().Next(0,lista.Count)]);
 
         return queue;
     }

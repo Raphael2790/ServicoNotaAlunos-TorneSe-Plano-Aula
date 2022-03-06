@@ -1,6 +1,6 @@
 namespace TorneSe.ServicoNotaAluno.Domain.Entidades;
 
-public class Nota
+public class Nota : Entidade
 {
     public Nota(int alunoId, int atividadeId, double valorNota, DateTime dataLancamento, int usuarioId)
     {

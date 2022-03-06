@@ -26,22 +26,13 @@ public class FakeDbContext : IUnitOfWork, IDisposable
     {
         var alunos = new List<Aluno>();
 
-        Aluno aluno = new(1234,"Raphael", "raphael.s@email.com", 1212, DateTime.Now);
-        aluno.Usuario = new("Raphael Silvestre", "87628929919", new DateTime(1990, 3, 10), true,
-        "raphael.s@email.com", false);
+        Aluno aluno = new("Raphael Silvestre", "87628929919", new DateTime(1990, 3, 10), true,
+        "raphael.s@email.com", false,1234,"Raphael", "raphael.s@email.com", 1212, DateTime.Now);
 
-        aluno.AlunosTurmas = new List<AlunosTurmas>() 
-        { 
-            new() 
-            {
-                AlunoId= 1234, 
-                TurmaId = 10019,
-                Turmas = new List<Turma>
-                {
-                    new("Grupo Matemática I", Periodo.Noturno, new DateTime(2021,06,01),
+        aluno.Turmas = new List<Turma>
+        {
+            new("Grupo Matemática I", Periodo.Noturno, new DateTime(2021,06,01),
                     new DateTime(2021,12,01), 1341567, DateTime.Now)
-                }
-            } 
         };
 
         alunos.Add(aluno);
@@ -53,9 +44,8 @@ public class FakeDbContext : IUnitOfWork, IDisposable
     {
         var professores = new List<Professor>();
 
-        Professor professor = new(1282727, "Danilo", "danilo.s@email.com", true,false,1212, DateTime.Now,1341567);
-        professor.Usuario = new ("Danilo Aparecido", "30292919821", new DateTime(1983,01,01), true,
-        "danilo.aparecido@email.com", false);
+        Professor professor = new("Danilo Aparecido", "30292919821", new DateTime(1983,01,01), true,
+        "danilo.aparecido@email.com", false,1282727, "Danilo", "danilo.s@email.com", true,false,1212, DateTime.Now,1341567);
 
         professores.Add(professor);
 

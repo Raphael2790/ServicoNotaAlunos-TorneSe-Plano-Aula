@@ -22,7 +22,7 @@ public class NotaAlunoValidationService : INotaAlunoValidationService
 
     private void ValidarAluno(Aluno aluno, int disciplinaId)
     {
-        if(!aluno.Usuario.Ativo)
+        if(!aluno.Ativo)
         {
             _notificationContext.Add(Constants.ValidationMessages.ALUNO_INATIVO);
             return;
@@ -36,12 +36,12 @@ public class NotaAlunoValidationService : INotaAlunoValidationService
     }
 
     private bool AlunoEstaMatriculado(Aluno aluno, int disciplinaId) =>
-        aluno.AlunosTurmas.SelectMany(x => x.Turmas).Any(x => x.DisciplinaId == disciplinaId);
+        aluno.Turmas.Any(x => x.DisciplinaId == disciplinaId);
 
     private void ValidarProfessor(Professor professor, int disciplinaId)
     {
         //chain of responsability
-        if(!professor.Usuario.Ativo)
+        if(!professor.Ativo)
         {
             _notificationContext.Add(Constants.ValidationMessages.PROFESSOR_INATIVO);
             return;

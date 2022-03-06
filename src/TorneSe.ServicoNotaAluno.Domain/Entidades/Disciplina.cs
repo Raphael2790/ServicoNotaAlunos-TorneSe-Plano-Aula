@@ -29,6 +29,7 @@ public class Disciplina : Entidade, IAggregateRoot
 
 
     public Professor Professor { get; private set; }
+    public ICollection<Turma> Turmas { get; private set; }
     public ICollection<Conteudo> Conteudos { get; private set; }
 
     public void AdicionarConteudo(Conteudo conteudo) =>

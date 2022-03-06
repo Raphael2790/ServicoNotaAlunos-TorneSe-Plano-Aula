@@ -15,7 +15,7 @@ public class ProfessorValidationHandler : AbstractValidationHandler<NotaAlunoVal
 
     public override void Handle(NotaAlunoValidationRequest request)
     {
-        if(!request.Professor.Usuario.Ativo)
+        if(!request.Professor.Ativo)
         {
             _notificationContext.Add(Constants.ValidationMessages.PROFESSOR_INATIVO);
             return;

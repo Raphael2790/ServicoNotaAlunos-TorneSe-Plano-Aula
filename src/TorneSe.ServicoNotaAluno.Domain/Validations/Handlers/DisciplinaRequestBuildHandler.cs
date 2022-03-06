@@ -20,7 +20,7 @@ public class DisciplinaRequestBuildHandler : AbstractRequestBuildHandler<NotaAlu
 
     public override async Task Handle(NotaAlunoValidationRequest request)
     {
-        request.Disciplina = await _disciplinaRepository.BuscarDisciplinaPorAtividadeId(request.AtividadeId);
+        request.Disciplina = await _disciplinaRepository.BuscarDisciplinaPorAtividadeIdDb(request.AtividadeId);
 
         if(request.Disciplina is null)
         {

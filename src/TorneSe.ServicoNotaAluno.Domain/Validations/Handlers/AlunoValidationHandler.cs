@@ -2,7 +2,6 @@ using TorneSe.ServicoNotaAluno.Domain.Entidades;
 using TorneSe.ServicoNotaAluno.Domain.Notification;
 using TorneSe.ServicoNotaAluno.Domain.ObjetosDominio;
 using TorneSe.ServicoNotaAluno.Domain.Utils;
-using TorneSe.ServicoNotaAluno.Domain.Validations.Handlers.Interfaces;
 
 namespace TorneSe.ServicoNotaAluno.Domain.Validations.Handlers;
 
@@ -17,7 +16,7 @@ public class AlunoValidationHandler : AbstractValidationHandler<NotaAlunoValidat
 
     public override void Handle(NotaAlunoValidationRequest request)
     {
-        if(!request.Aluno.Usuario.Ativo)
+        if(!request.Aluno.Ativo)
         {
             _notificationContext.Add(Constants.ValidationMessages.ALUNO_INATIVO);
             return;
@@ -38,5 +37,5 @@ public class AlunoValidationHandler : AbstractValidationHandler<NotaAlunoValidat
     }
 
     private bool AlunoEstaMatriculado(Aluno aluno, int disciplinaId) =>
-        aluno.AlunosTurmas.SelectMany(x => x.Turmas).Any(x => x.DisciplinaId == disciplinaId);
+        aluno.Turmas.Any(x => x.DisciplinaId == disciplinaId);
 }
