@@ -42,7 +42,13 @@ public class ServicoNotaAlunoWorker : BackgroundService
                 }
 
                 await notaAlunoAppService.LancarNota(message.MessageBody);
-            
+
+                if(notificationContext.HasNotifications)
+                    _logger.LogError(notificationContext.ToJson());
+                else
+                _logger.LogInformation($"Mensagem correlationId {message.MessageBody.CorrelationId} processada com sucesso!");
+
+                await messageClient.DeleteMessageAsync(message.MessageHandle);
         }
     }
 }
