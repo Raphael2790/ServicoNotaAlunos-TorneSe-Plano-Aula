@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TorneSe.ServicoNotaAluno.Data.Converters;
 using TorneSe.ServicoNotaAluno.Domain.Entidades;
+using TorneSe.ServicoNotaAluno.Domain.ValueObjects;
 
 namespace TorneSe.ServicoNotaAluno.Data.Mappings;
 
@@ -47,5 +49,16 @@ public class UsuarioMapping : IEntityTypeConfiguration<Usuario>
                 .HasColumnType("BOOLEAN")
                 .IsRequired()
                 .HasDefaultValueSql("FALSE");
+
+        builder.Property(x => x.DataCadastro)
+                .HasColumnName("data_cadastro")
+                .HasColumnType("TIMESTAMP(6)")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+        builder.Property(x => x.TelefoneContato)
+                .HasColumnName("telefone_contato")
+                .HasConversion(TelefoneConverter.Instance)
+                .HasColumnType("VARCHAR(30)")
+                .IsRequired();
     }
 }

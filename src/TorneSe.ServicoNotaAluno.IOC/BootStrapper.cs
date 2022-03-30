@@ -5,6 +5,7 @@ using TorneSe.ServicoNotaAluno.Data.Context;
 using TorneSe.ServicoNotaAluno.Data.Repositories;
 using TorneSe.ServicoNotaAluno.Data.Sqs.SQS.Clients;
 using TorneSe.ServicoNotaAluno.Data.Sqs.SQS.Clients.Interfaces;
+using TorneSe.ServicoNotaAluno.Data.UnitOfWork;
 using TorneSe.ServicoNotaAluno.Domain.Interfaces.Repositories;
 using TorneSe.ServicoNotaAluno.Domain.Interfaces.Services;
 using TorneSe.ServicoNotaAluno.Domain.Notification;
@@ -26,6 +27,7 @@ public static class BootStrapper
         RegisterQueues(services);
         RegisterNotificationContext(services);
         RegisterChains(services);
+        RegisterUnitOfWork(services);
         return services;
     } 
 
@@ -45,6 +47,11 @@ public static class BootStrapper
     private static void RegisterContexts(IServiceCollection services)
     {
         services.AddScoped<FakeDbContext>();
+    }
+
+    private static void RegisterUnitOfWork(IServiceCollection services)
+    {
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 
     private static void RegisterQueues(IServiceCollection services)

@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using TorneSe.ServicoNotaAluno.Data.Context;
 using TorneSe.ServicoNotaAluno.Domain.Entidades;
 using TorneSe.ServicoNotaAluno.Domain.Interfaces.Repositories;
-using TorneSe.ServicoNotaAluno.Domain.ObjetosDominio;
 
 namespace TorneSe.ServicoNotaAluno.Data.Repositories;
 
@@ -26,11 +25,9 @@ public class DisciplinaRepository : IDisciplinaRepository
 
     public async Task<Disciplina?> BuscarDisciplinaPorAtividadeIdDb(int atividadeId)
     {
-        return await _context.Disciplinas
+        return await _context.Disciplinas.AsNoTrackingWithIdentityResolution().TagWith("-- Use NOLOCK")
                 .FirstOrDefaultAsync(x => x.Conteudos.Any(y => y.Atividades.Any(z => z.Id == atividadeId)));
-    } 
-
-    public IUnitOfWork UnitOfWork => _context;
+    }
 
     public void Dispose() 
     {

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using TorneSe.ServicoNotaAluno.Data.Context;
 using TorneSe.ServicoNotaAluno.Domain.Entidades;
 using TorneSe.ServicoNotaAluno.Domain.Interfaces.Repositories;
-using TorneSe.ServicoNotaAluno.Domain.ObjetosDominio;
 
 namespace TorneSe.ServicoNotaAluno.Data.Repositories;
 
@@ -19,8 +18,6 @@ public class UsuarioRepository : IUsuarioRepository
         _context = context;
     }
 
-    public IUnitOfWork UnitOfWork => _context;
-
     public async Task<Aluno?> BuscarAlunoPorId(int alunoId) =>
         await Task.FromResult(_contexto.Alunos.FirstOrDefault(x => x.Id == alunoId));
 
@@ -28,10 +25,10 @@ public class UsuarioRepository : IUsuarioRepository
         await Task.FromResult(_contexto.Professores.FirstOrDefault(x => x.Id == professorId));
 
     public async Task<Aluno?> BuscarAlunoPorIdDb(int alunoId) =>
-        await _context.Alunos.FirstOrDefaultAsync(x => x.Id == alunoId);
+        await _context.Alunos.TagWith("-- Use NOLOCK").FirstOrDefaultAsync(x => x.Id == alunoId);
 
     public async Task<Professor?> BuscarProfessorPorIdDb(int professorId) =>
-        await _context.Professores.FirstOrDefaultAsync(x => x.Id == professorId);
+        await _context.Professores.TagWith("-- Use NOLOCK").AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync(x => x.Id == professorId);
 
     public void Dispose() =>
         _contexto?.Dispose();

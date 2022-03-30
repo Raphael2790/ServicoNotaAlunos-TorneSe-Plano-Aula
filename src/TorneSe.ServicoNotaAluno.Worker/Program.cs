@@ -19,7 +19,8 @@ IHost host = Host.CreateDefaultBuilder(args)
                 .AddNpgsql<NotaAlunoDbContext>(hostContext.Configuration.GetConnectionString("DefaultConnection")
         ,opt => 
                 { 
-                    opt.CommandTimeout(10); 
+                    opt.CommandTimeout(10);
+                    opt.EnableRetryOnFailure(4, TimeSpan.FromSeconds(10), null);
                 });
     })
     .Build();

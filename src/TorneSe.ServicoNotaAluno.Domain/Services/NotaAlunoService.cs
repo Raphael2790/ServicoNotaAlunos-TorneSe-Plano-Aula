@@ -52,8 +52,6 @@ public class NotaAlunoService : INotaAlunoService
         var nota = new Nota(request.AlunoId,request.AtividadeId, message.ValorNota,DateTime.Now, 1000);
 
         request.Aluno.AtribuirNota(nota);
-
-        await _usuarioRepository.UnitOfWork.Commit();
     }
 
     private async Task<NotaAlunoValidationRequest> BuildRequest(RegistrarNotaAluno message)

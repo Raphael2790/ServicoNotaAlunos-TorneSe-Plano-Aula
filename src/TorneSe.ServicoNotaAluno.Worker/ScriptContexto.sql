@@ -132,6 +132,7 @@ OVERRIDING SYSTEM VALUE
 VALUES (1282727, TIMESTAMP '2022-03-06 18:26:18.741695', 1341567, 'danilo.s@email.com', 'Danilo', TRUE);
 
 INSERT INTO servnota.disciplinas (id, data_cadastro, data_fim, data_inicio, descricao, nome, professor_id, tipo_disciplina)
+OVERRIDING SYSTEM VALUE
 VALUES (1341567, TIMESTAMP '2021-09-12 00:00:00', TIMESTAMP '2022-02-12 00:00:00', TIMESTAMP '2021-10-12 00:00:00', 'Matemática base ensino médio', 'Matemática', 1282727, 'Teorica');
 
 INSERT INTO servnota.conteudos (id, data_cadastro, data_inicio, data_termino, descricao, disciplina_id, nome)
@@ -143,9 +144,11 @@ OVERRIDING SYSTEM VALUE
 VALUES (1, TIMESTAMP '2022-03-06 18:26:18.742094', TIMESTAMP '2021-12-01 00:00:00', TIMESTAMP '2021-06-01 00:00:00', 1341567, 'Grupo Matemática I', 'Noturno');
 
 INSERT INTO servnota.atividades (id, conteudo_id, data_atividade, data_cadastro, descricao, tipo_atividade)
+OVERRIDING SYSTEM VALUE
 VALUES (1, 1, TIMESTAMP '2021-11-10 00:00:00', TIMESTAMP '2021-11-01 00:00:00', 'Atividade avaliativa equações', 1);
 
 INSERT INTO servnota.alunos_turmas (aluno_id, turma_id, data_cadastro)
+OVERRIDING SYSTEM VALUE
 VALUES (1234, 1, CURRENT_TIMESTAMP);
 
 CREATE INDEX "IX_alunos_turmas_turma_id" ON servnota.alunos_turmas (turma_id);

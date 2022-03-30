@@ -1,10 +1,9 @@
 using TorneSe.ServicoNotaAluno.Domain.Entidades;
 using TorneSe.ServicoNotaAluno.Domain.Enums;
-using TorneSe.ServicoNotaAluno.Domain.ObjetosDominio;
 
 namespace TorneSe.ServicoNotaAluno.Data.Context;
 
-public class FakeDbContext : IUnitOfWork, IDisposable
+public class FakeDbContext
 {
     public FakeDbContext()
     {

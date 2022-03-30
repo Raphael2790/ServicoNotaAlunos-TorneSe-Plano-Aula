@@ -1,4 +1,5 @@
 using TorneSe.ServicoNotaAluno.Domain.ObjetosDominio;
+using TorneSe.ServicoNotaAluno.Domain.ValueObjects;
 
 namespace TorneSe.ServicoNotaAluno.Domain.Entidades;
 
@@ -22,5 +23,7 @@ public class Usuario : Entidade, IAggregateRoot
     public DateTime DataNascimento { get; protected set; }
     public bool Ativo { get; protected set; }
     public string Email { get; protected set; }
+    public Telefone TelefoneContato { get; private set; }
     public bool UsuarioAdm { get; protected set; }
+    public DateTime DataCadastro { get; private set; }
 }

@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using TorneSe.ServicoNotaAluno.Data.Interceptors;
 using TorneSe.ServicoNotaAluno.Domain.Entidades;
 using TorneSe.ServicoNotaAluno.Domain.ObjetosDominio;
 
 namespace TorneSe.ServicoNotaAluno.Data.Context;
 
-public class NotaAlunoDbContext : DbContext, IUnitOfWork
+public class NotaAlunoDbContext : DbContext
 {
     public NotaAlunoDbContext(DbContextOptions<NotaAlunoDbContext> options) : base(options) { }
 
@@ -33,7 +34,8 @@ public class NotaAlunoDbContext : DbContext, IUnitOfWork
         if(!optionsBuilder.IsConfigured)
             optionsBuilder.UseNpgsql("");
 
-        optionsBuilder.LogTo(Console.WriteLine);
+        optionsBuilder.LogTo(Console.WriteLine)
+                        .AddInterceptors(CommandInterceptor.Instance);
     }
 
     private static void AtribuirPadraoParaTipoTexto(IMutableModel mutableModel)
@@ -59,6 +61,8 @@ public class NotaAlunoDbContext : DbContext, IUnitOfWork
         }
     }
 
-    public async Task<bool> Commit() =>
-        (await SaveChangesAsync()) > 0;
+    public bool HasUnsavedChanges()
+    {
+        return this.ChangeTracker.HasChanges();
+    }
 }
