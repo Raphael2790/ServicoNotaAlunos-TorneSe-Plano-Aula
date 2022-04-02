@@ -1,5 +1,6 @@
 using TorneSe.ServicoNotaAluno.Data.Sqs.Messages;
 using TorneSe.ServicoNotaAluno.Data.Sqs.SQS.Clients.Interfaces;
+using TorneSe.ServicoNotaAluno.Data.Sqs.SQS.Context.Interfaces;
 using TorneSe.ServicoNotaAluno.Domain.Messages;
 using TorneSe.ServicoNotaAluno.Domain.Notification;
 
@@ -10,7 +11,11 @@ public class LancarNotaAlunoFakeClient : SqsClient<RegistrarNotaAluno>, ILancarN
     private readonly Queue<QueueMessage<RegistrarNotaAluno>> _filaNotasParaRegistrar;
     private readonly NotificationContext _notificationContext;
 
-    public LancarNotaAlunoFakeClient(NotificationContext notificationContext)
+    const string SQS_QUEUE_NAME = "TorneSeServicoNotaAlunosFakeQueue";
+
+    public LancarNotaAlunoFakeClient(ISqsContext sqsContext, 
+                    NotificationContext notificationContext)
+                    : base(sqsContext, notificationContext, SQS_QUEUE_NAME)
     {
         _filaNotasParaRegistrar = NotasParaProcessar();
         _notificationContext = notificationContext;

@@ -24,7 +24,7 @@ public class ServicoNotaAlunoWorker : BackgroundService
                 _logger.LogInformation($"Iniciando o serviço de notas");
                 using var scoped = _serviceScopeFactory.CreateScope();
                 var notaAlunoAppService = scoped.ServiceProvider.GetRequiredService<INotaAlunoApplicationService>();
-                var messageClient = scoped.ServiceProvider.GetRequiredService<ILancarNotaAlunoFakeClient>();
+                var messageClient = scoped.ServiceProvider.GetRequiredService<ILancarNotaAlunoReceiveClient>();
                 var notificationContext = scoped.ServiceProvider.GetRequiredService<NotificationContext>();
 
                 var message = await messageClient.GetMessageAsync();

@@ -5,6 +5,8 @@ using TorneSe.ServicoNotaAluno.Data.Context;
 using TorneSe.ServicoNotaAluno.Data.Repositories;
 using TorneSe.ServicoNotaAluno.Data.Sqs.SQS.Clients;
 using TorneSe.ServicoNotaAluno.Data.Sqs.SQS.Clients.Interfaces;
+using TorneSe.ServicoNotaAluno.Data.Sqs.SQS.Context;
+using TorneSe.ServicoNotaAluno.Data.Sqs.SQS.Context.Interfaces;
 using TorneSe.ServicoNotaAluno.Data.UnitOfWork;
 using TorneSe.ServicoNotaAluno.Domain.Interfaces.Repositories;
 using TorneSe.ServicoNotaAluno.Domain.Interfaces.Services;
@@ -21,52 +23,66 @@ public static class BootStrapper
 {
     public static IServiceCollection ConfigureDependencyInjection(this IServiceCollection services)
     {
-        RegisterServices(services);
-        RegisterRepositories(services);
-        RegisterContexts(services);
-        RegisterQueues(services);
-        RegisterNotificationContext(services);
-        RegisterChains(services);
-        RegisterUnitOfWork(services);
-        return services;
+        return services.RegisterServices()
+                        .RegisterRepositories()
+                        .RegisterContexts()
+                        .RegisterQueues()
+                        .RegisterNotificationContext()
+                        .RegisterChains()
+                        .RegisterUnitOfWork()
+                        .RegisterSqsContext();
     } 
 
-    private static void RegisterServices(IServiceCollection services)
+    private static IServiceCollection RegisterServices(this IServiceCollection services)
     {
         services.AddScoped<INotaAlunoApplicationService, NotaAlunoApplicationService>();
         services.AddScoped<INotaAlunoService, NotaAlunoService>();
         services.AddScoped<INotaAlunoValidationService, NotaAlunoValidationService>();
+        return services;
     }
 
-    private static void RegisterRepositories(IServiceCollection services)
+    private static IServiceCollection RegisterRepositories(this IServiceCollection services)
     {
         services.AddScoped<IDisciplinaRepository, DisciplinaRepository>();
         services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+        return services;
     }
 
-    private static void RegisterContexts(IServiceCollection services)
+    private static IServiceCollection RegisterContexts(this IServiceCollection services)
     {
         services.AddScoped<FakeDbContext>();
+        return services;
     }
 
-    private static void RegisterUnitOfWork(IServiceCollection services)
+    private static IServiceCollection RegisterUnitOfWork(this IServiceCollection services)
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        return services;
     }
 
-    private static void RegisterQueues(IServiceCollection services)
+    private static IServiceCollection RegisterQueues(this IServiceCollection services)
     {
         services.AddScoped<ILancarNotaAlunoFakeClient, LancarNotaAlunoFakeClient>();
+        services.AddScoped<ILancarNotaAlunoReceiveClient, LancarNotaAlunoReceiveClient>();
+        return services;
     }
 
-    private static void RegisterNotificationContext(IServiceCollection services)
+    private static IServiceCollection RegisterNotificationContext(this IServiceCollection services)
     {
         services.AddScoped<NotificationContext>();
+        return services;
     }
 
-    private static void RegisterChains(IServiceCollection services)
+    private static IServiceCollection RegisterChains(this IServiceCollection services)
     {
         services.AddChainedAsync<IAsyncHandler<NotaAlunoValidationRequest>,NotaAlunoValidationRequest>(typeof(AlunoRequestBuildHandler), typeof(ProfessorRequestBuildHandler), typeof(DisciplinaRequestBuildHandler));
         services.AddChained<IHandler<NotaAlunoValidationRequest>, NotaAlunoValidationRequest>(typeof(AlunoValidationHandler), typeof(ProfessorValidationHandler), typeof(DisciplinaValidationHandler));
+        return services;
+    }
+
+    private static IServiceCollection RegisterSqsContext(this IServiceCollection services)
+    {
+        services.AddSingleton<ISqsContext, SqsContext>();
+        return services;
     }
 }
