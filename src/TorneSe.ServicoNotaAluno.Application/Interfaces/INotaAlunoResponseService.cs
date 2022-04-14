@@ -2,7 +2,7 @@ using TorneSe.ServicoNotaAluno.Domain.Messages;
 
 namespace TorneSe.ServicoNotaAluno.Application.Interfaces;
 
-public interface INotaAlunoApplicationService
+public interface INotaAlunoResponseService
 {
-    Task LancarNota();
+    Task Enviar(RegistrarNotaAluno notaAlunoRegistrada);
 }

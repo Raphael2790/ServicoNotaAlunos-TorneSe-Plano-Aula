@@ -38,6 +38,8 @@ public static class BootStrapper
         services.AddScoped<INotaAlunoApplicationService, NotaAlunoApplicationService>();
         services.AddScoped<INotaAlunoService, NotaAlunoService>();
         services.AddScoped<INotaAlunoValidationService, NotaAlunoValidationService>();
+        services.AddScoped<INotaAlunoRequestService, NotaAlunoRequestService>();
+        services.AddScoped<INotaAlunoResponseService, NotaAlunoResponseService>();
         return services;
     }
 
@@ -64,6 +66,7 @@ public static class BootStrapper
     {
         services.AddScoped<ILancarNotaAlunoFakeClient, LancarNotaAlunoFakeClient>();
         services.AddScoped<ILancarNotaAlunoReceiveClient, LancarNotaAlunoReceiveClient>();
+        services.AddScoped<ILancarNotaAlunoResponseClient, LancarNotaAlunoResponseClient>();
         return services;
     }
 

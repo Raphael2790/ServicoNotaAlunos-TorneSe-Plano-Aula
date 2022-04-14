@@ -1,7 +1,4 @@
 using TorneSe.ServicoNotaAluno.Application.Interfaces;
-using TorneSe.ServicoNotaAluno.Data.Sqs.SQS.Clients.Interfaces;
-using TorneSe.ServicoNotaAluno.Domain.Notification;
-using TorneSe.ServicoNotaAluno.Domain.Utils;
 
 namespace TorneSe.ServicoNotaAluno.Worker;
 
@@ -24,31 +21,9 @@ public class ServicoNotaAlunoWorker : BackgroundService
                 _logger.LogInformation($"Iniciando o serviço de notas");
                 using var scoped = _serviceScopeFactory.CreateScope();
                 var notaAlunoAppService = scoped.ServiceProvider.GetRequiredService<INotaAlunoApplicationService>();
-                var messageClient = scoped.ServiceProvider.GetRequiredService<ILancarNotaAlunoReceiveClient>();
-                var notificationContext = scoped.ServiceProvider.GetRequiredService<NotificationContext>();
 
-                var message = await messageClient.GetMessageAsync();
-
-                if(notificationContext.HasNotifications)
-                {
-                    _logger.LogError(notificationContext.ToJson());
-                    continue;
-                }
-
-                if(message is null)
-                {
-                    _logger.LogInformation(Constants.ApplicationMessages.SEM_MENSAGENS_NA_FILA);
-                    continue;
-                }
-
-                await notaAlunoAppService.LancarNota(message.MessageBody);
-
-                if(notificationContext.HasNotifications)
-                    _logger.LogError(notificationContext.ToJson());
-                else
-                _logger.LogInformation($"Mensagem correlationId {message.MessageBody.CorrelationId} processada com sucesso!");
-
-                await messageClient.DeleteMessageAsync(message.MessageHandle);
+                await notaAlunoAppService.LancarNota();
+                _logger.LogInformation($"Finalizando o serviço de notas");
         }
     }
 }

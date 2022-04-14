@@ -6,11 +6,11 @@ public class NotaAlunoRegistrada : Message
 {
     public NotaAlunoRegistrada()
     {
-        Erros = new ();
+        Erros = new List<string>();
     }
     public int AlunoId { get; set; }
     public int AtividadeId { get; set; }
     public bool PossuiErros { get; set; }
-    public Guid CorrelationId { get; set; }
-    public List<string> Erros { get; set; }
+    public string CorrelationId { get; set; }
+    public IEnumerable<string> Erros { get; set; }
 }

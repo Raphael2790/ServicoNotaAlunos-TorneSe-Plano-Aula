@@ -5,6 +5,7 @@ public static class Constants
     public static class ApplicationMessages
     {
         public const string SEM_MENSAGENS_NA_FILA = "Não existem mensagens a serem procesaadas.";
+        public const string FALHA_NA_PERSISTENCIA = "Falha ao persistir informações da nota.";
     }
 
     public static class ValidationMessages
