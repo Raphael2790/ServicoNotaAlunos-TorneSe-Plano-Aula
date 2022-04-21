@@ -1,6 +1,8 @@
 using TorneSe.ServicoNotaAluno.Data.Context;
 using TorneSe.ServicoNotaAluno.IOC;
 using TorneSe.ServicoNotaAluno.Worker;
+using Serilog;
+using TorneSe.ServicoNotaAluno.IOC.Extensions;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((hostContext, config) =>
@@ -12,17 +14,19 @@ IHost host = Host.CreateDefaultBuilder(args)
 
         hostContext.Configuration = config.Build();
     })
-    .ConfigureServices((hostContext,services) =>
+    .ConfigureServices((hostContext, services) =>
     {
         services.ConfigureDependencyInjection()
                 .AddHostedService<ServicoNotaAlunoWorker>()
                 .AddNpgsql<NotaAlunoDbContext>(hostContext.Configuration.GetConnectionString("DefaultConnection")
-        ,opt => 
-                { 
+        , opt =>
+                {
                     opt.CommandTimeout(10);
                     opt.EnableRetryOnFailure(4, TimeSpan.FromSeconds(10), null);
-                });
+                })
+                .ConfigureSerilog(hostContext.Configuration, hostContext.HostingEnvironment);
     })
+    .UseSerilog()
     .Build();
 
 await host.RunAsync();
